@@ -13,13 +13,19 @@ import { UiServiceService } from 'src/app/services/ui-service.service';
 export class HeaderComponent implements OnInit {
   title:string = 'Task Tracker';
   showAddTask: boolean = false;
-  subscription: Subscription | undefined;
+  subscription: Subscription;
 
   constructor(private uiService:UiServiceService, private router:Router) {
     this.subscription = this.uiService.onToggle().subscribe((value) => (this.showAddTask = value))
   }
 
   ngOnInit(): void {
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.subscription.unsubscribe();
   }
 
   toggleAddTask(){
